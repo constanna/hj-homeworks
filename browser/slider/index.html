@@ -31,5 +31,25 @@
       </div>
     </div>
   </section>
+  <script type="text/javascript">
+    var images = ['airmax-jump.png', 'airmax-on-foot.png', 'airmax-playground.png', 'airmax-top-view.png', 'airmax.png'];
+    var number = 0;
+
+    function setImage(n) {
+      const element = document.getElementById('slider');
+      element.src = 'i/' + images[n];
+    }
+
+    setImage(number);
+
+    function show() {
+      number++;
+      if (number >= images.length) {
+        number = 0;
+      }
+      setImage(number);
+    }
+    setInterval(show, 5000);
+  </script>
 </body>
 </html>
