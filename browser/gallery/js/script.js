@@ -1,8 +1,8 @@
 var images = ['breuer-building.jpg', 'guggenheim-museum.jpg', 'headquarters.jpg', 'IAC.jpg', 'new-museum.jpg'];
 var number = 0;
+const element = document.getElementById('currentPhoto');
 
 function setImage(n) {
-  const element = document.getElementById('currentPhoto');
   element.src = 'i/' + images[n];
 }
 
