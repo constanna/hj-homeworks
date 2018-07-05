@@ -18,7 +18,9 @@ piano.classList.remove('higher', 'middle', 'lower');
 setMode("middle");
 
 function play () {
-  let audio = this.getElementsByTagName('audio')[0].play();
+  let audio = this.getElementsByTagName('audio')[0];
+  audio.currentTime = 0;
+  audio.play();
 }
 
 let keys = document.getElementsByTagName('li');
