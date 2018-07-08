@@ -1,7 +1,7 @@
 let navigation = document.getElementsByTagName('nav')[0];
 
 document.addEventListener('keydown', function(event) {
-  if ((event.key === 'T') && (event.altKey) && (event.ctrlKey)) {
+  if ((event.code === 'KeyT') && (event.altKey) && (event.ctrlKey)) {
     navigation.classList.toggle('visible');
   }
 });
