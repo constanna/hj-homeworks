@@ -58,7 +58,7 @@ fetch('https://neto-api.herokuapp.com/cart/sizes')
   if (localStorage.size !== undefined) {
     defaultSize = localStorage.size;
   } else {
-    defaultSize = data.filter((color) => size.isAvailable)[0].type;
+    defaultSize = data.filter((size) => size.isAvailable)[0].type;
   }
   let checked = '';
 
