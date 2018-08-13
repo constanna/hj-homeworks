@@ -3,9 +3,9 @@
 const block = document.querySelector('.block');
 const message = document.querySelector('.message');
 const textarea = document.querySelector('textarea');
+let timeout;
 
 function debounce(callback, delay) {
-  let timeout;
   return () => {
     clearTimeout(timeout);
     timeout = setTimeout(function() {
@@ -15,12 +15,22 @@ function debounce(callback, delay) {
   };
 };
 
+function start() {
+  block.classList.add('active');
+  message.classList.remove('view');
+};
+
 textarea.addEventListener('keydown', debounce(() => {
   block.classList.remove('active');
   message.classList.add('view');
 }, 2000));
 
-textarea.addEventListener('keydown', function() {
-  block.classList.add('active');
+textarea.addEventListener('focus', start);
+
+textarea.addEventListener('keydown', start);
+
+textarea.addEventListener('blur', function() {
   message.classList.remove('view');
+  block.classList.remove('active');
+  clearTimeout(timeout);
 });

@@ -1,30 +1,35 @@
 'use strict';
 
-let logos = document.querySelectorAll('.logo');
 const trashBin = document.getElementById('trash_bin');
-let target;
+let dragged = null;
 
-for (let logo of logos) {
-  logo.addEventListener('dragstart', event => {
-    target = event.target;
-    target.classList.add('moving');
-  });
-
-  logo.addEventListener('dragend', event => {
-    target = event.target;
-    target.classList.remove('moving');
-  });
-}
-
-trashBin.addEventListener('dragenter', event => {
+document.addEventListener('mousedown', event => {
+  if (!event.target.classList.contains('logo')) {
+    return;
+  }
   event.preventDefault();
+  dragged = event.target;
+  dragged.classList.add('moving');
 });
 
-trashBin.addEventListener('dragover', event => {
+document.addEventListener('mousemove', event => {
+  if (dragged === null) {
+    return;
+  }
   event.preventDefault();
+  let rect = dragged.getBoundingClientRect();
+  dragged.style.left = `${event.pageX - rect.width / 2}px`;
+  dragged.style.top = `${event.pageY - rect.height / 2}px`;
 });
 
-trashBin.addEventListener('drop', event => {
+document.addEventListener('mouseup', event => {
+  if (dragged === null) {
+    return;
+  }
   event.preventDefault();
-  target.style.display = 'none';
+  dragged.classList.remove('moving');
+  if (event.target === trashBin) {
+    dragged.style.display = 'none';
+  }
+  dragged = null;
 });
