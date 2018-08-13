@@ -57,7 +57,7 @@ function record(app) {
 
           createThumbnail(recorded).then((photo) => {
             app.mode = 'sending';
-            done(recorded, photo);
+            done({video: recorded, frame: photo});
             app.mode = 'sended';
           });
         });

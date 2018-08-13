@@ -68,12 +68,8 @@ getPhoto.addEventListener('click', function(event) {
   uploadButton.addEventListener('click', function() {
     let fd = new FormData();
     fd.append('image', image.src);
-    //fd.append('image', new Blob(image.src));
     fetch('https://neto-api.herokuapp.com/photo-booth', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
       body: fd,
     }).then(resp => console.log(resp)).catch(err => console.log(err))
   });
