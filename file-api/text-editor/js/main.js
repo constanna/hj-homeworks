@@ -30,9 +30,8 @@ class TextEditor {
   loadFile(e) {
     this.hideHint(e);
     e.stopPropagation();
-    let file = e.dataTransfer.files[0];
-    let nameParts = file.name.split('.');
-    if (nameParts[nameParts.length - 1] !== 'txt') {
+    const file = e.dataTransfer.files[0];
+    if (!file.type.startsWith('text/')) {
       alert('Неправильное расширение файла');
       return;
     }

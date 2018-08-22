@@ -36,40 +36,42 @@ class iLayout {
     this.positionsContainer.addEventListener('drop', event => {
       event.preventDefault();
       removeClass('layout__item_active', event.target);
-      let file = event.dataTransfer.files[0];
+      const file = event.dataTransfer.files[0];
       if (!file.type.startsWith('image/')) {
         alert('Файл не является изображением!');
         return;
       }
 
-      let url = URL.createObjectURL(file);
-      let img = new Image;
-      img.src = url.replace('image/png', 'image/octet-stream');
+      const url = URL.createObjectURL(file),
+        img = new Image;
+      img.src = url;
       addClass('layout__image', img);
       event.target.appendChild(img);
     });
 
     this.actionButton.addEventListener('click', event => {
-      const leftContainer = document.querySelector('.layout__item_left');
-      let leftContainerWidth = leftContainer.getBoundingClientRect().width;
-      let leftContainerHeight = leftContainer.getBoundingClientRect().height;
-      const topContainer = document.querySelector('.layout__item_top');
-      let topContainerWidth = topContainer.getBoundingClientRect().width;
-      let topContainerHeight = topContainer.getBoundingClientRect().height;
+      const leftContainer = document.querySelector('.layout__item_left'),
+        topContainer = document.querySelector('.layout__item_top'),
+        leftContainerRect = leftContainer.getBoundingClientRect(),
+        topContainerRect = topContainer.getBoundingClientRect();
+      let leftContainerWidth = leftContainerRect.width,
+        leftContainerHeight = leftContainerRect.height,
+        topContainerWidth = topContainerRect.width,
+        topContainerHeight = topContainerRect.height;
 
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const canvas = document.createElement('canvas'),
+        ctx = canvas.getContext('2d');
       canvas.width = leftContainerWidth + topContainerWidth;
       canvas.height = leftContainerHeight;
 
-      let leftImage = document.querySelector('.layout__item_left img');
+      let leftImage = document.querySelector('.layout__item_left img'),
+        topImage = document.querySelector('.layout__item_top img'),
+        bottomImage = document.querySelector('.layout__item_bottom img');
       ctx.drawImage(leftImage, 0, 0);
-      let topImage = document.querySelector('.layout__item_top img');
       ctx.drawImage(topImage, leftContainerWidth, 0);
-      let bottomImage = document.querySelector('.layout__item_bottom img');
       ctx.drawImage(bottomImage, leftContainerWidth, topContainerHeight);
 
-      let resultUrl = canvas.toDataURL().replace('image/png', 'image/octet-stream');
+      let resultUrl = canvas.toDataURL();
       this.result.value = `<img src="${resultUrl}" alt="">`;
     });
   }

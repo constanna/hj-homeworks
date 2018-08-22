@@ -1,9 +1,6 @@
 const prop = (data, name) => data.map(item => item[name]),
   summ = data => data.reduce((total, value) => total + value, 0);
 
-const canvas = document.createElement('canvas');
-const ctx = canvas.getContext('2d');
-
 class SpriteGenerator {
   constructor(container) {
     this.uploadButton = container.querySelector('.sprite-generator__upload');
@@ -14,14 +11,18 @@ class SpriteGenerator {
 
     this.images = [];
     this.imagesCount = 0;
+    this.codeContainer.innerHTML = '';
     this.registerEvents();
+
+    this.canvas = document.createElement('canvas');
+    this.ctx = this.canvas.getContext('2d');
   }
 
   registerEvents() {
     this.uploadButton.addEventListener('change', event => {
       for (let file of event.target.files) {
-        let url = URL.createObjectURL(file);
-        let img = new Image;
+        const url = URL.createObjectURL(file);
+        const img = new Image;
         img.src = url;
         this.images.push(img);
       }
@@ -30,17 +31,17 @@ class SpriteGenerator {
     });
 
     this.submitButton.addEventListener('click', event => {
-      canvas.width = summ(prop(this.images, 'width'));
-      canvas.height = Math.max(...prop(this.images, 'height'));
-      let currX = 0;
-      let code = `
-      .icon {
-        display: inline-block;
-        background-image: url(img/sprite.png);
-      }`;
+      this.canvas.width = summ(prop(this.images, 'width'));
+      this.canvas.height = Math.max(...prop(this.images, 'height'));
+      let currX = 0,
+        code = `
+        .icon {
+          display: inline-block;
+          background-image: url(img/sprite.png);
+        }`;
       for (let i in this.images) {
-        let img = this.images[i];
-        ctx.drawImage(img, currX, 0);
+        const img = this.images[i];
+        this.ctx.drawImage(img, currX, 0);
         let cssClassNum = parseInt(i) + 1;
         code += `
         .icon_${cssClassNum} {
@@ -50,7 +51,7 @@ class SpriteGenerator {
         }`;
         currX += img.width;
       }
-      this.imageElement.src = canvas.toDataURL().replace('image/png', 'image/octet-stream');
+      this.imageElement.src = this.canvas.toDataURL();
       this.codeContainer.innerHTML = code;
     });
   }
